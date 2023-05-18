@@ -1,23 +1,20 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package neurona;
-
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
  * @author davia
  */
-public class Neurona {
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Perceptron {
+
     public static void main(String[] args) {
-         Scanner lectura = new Scanner(System.in);
+        Scanner lectura = new Scanner(System.in);
 
         // Inicialización de los pesos sinápticos y la tasa de aprendizaje
         double w0 = new Random().nextFloat();
@@ -43,8 +40,40 @@ public class Neurona {
             {1, -1, 1},
             {1, -1, -1}};
 
-        int[] salidas = {1, -1, -1, -1};
+        int[] salidas = {0, 0, 0, 0};
 
+        boolean inputValido = false;
+        while (!inputValido) {
+            try {
+                System.out.println("¿Con qué compuerta quieren entrenar a la neurona?");
+                System.out.println("1) AND");
+                System.out.println("2) OR");
+                c = lectura.nextInt();
+
+                if (c == 1) {
+                    salidas[0] = 1;
+                    salidas[1] = -1;
+                    salidas[2] = -1;
+                    salidas[3] = -1;
+                    tit = "AND";
+                    inputValido = true; // Salir del bucle si la entrada es válida
+                } else if (c == 2) {
+                    salidas[0] = 1;
+                    salidas[1] = 1;
+                    salidas[2] = 1;
+                    salidas[3] = -1;
+                    tit = "OR";
+                    inputValido = true; // Salir del bucle si la entrada es válida
+                } else {
+                    System.out.println("Entrada incorrecta");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada incorrecta. Por favor, ingrese un número.");
+                lectura.nextLine(); // Limpiar el búfer del escáner
+            }
+        }
+
+        System.out.println("\nEntrenamiento para compuerta " + tit);
 
         try {
             Thread.sleep(3000); // Agrega un retraso de 3 segundos
@@ -95,9 +124,9 @@ public class Neurona {
         System.out.println("Procentaje de aprendizaje: " + pctAprendizaje);
 
         // Prueba del perceptrón con nuevos valores de entrada
-        System.out.print("\nEntrada 1: ");
+        System.out.print("\nValor 1: ");
         x1 = lectura.nextInt();
-        System.out.print("Entrada 2: ");
+        System.out.print("Valor 2: ");
         x2 = lectura.nextInt();
         y = (w0 * 1) + (w1 * x1) + (w2 * x2);
 
@@ -110,5 +139,4 @@ public class Neurona {
 
         System.out.println("La salida es: " + f);
     }
-    
 }
